@@ -5,6 +5,18 @@ import (
 	"image/color"
 )
 
+func Blur(img image.Image) image.Image {
+	var factor, bias float64 = 1.0, 0.0
+
+	kernel := [][]float64{
+		{0.0, 0.2, 0.0},
+		{0.2, 0.2, 0.2},
+		{0.0, 0.2, 0.0},
+	}
+
+	return Convolution(kernel, factor, bias, img)
+}
+
 func Convolution(kernel [][]float64, factor, bias float64, src image.Image) image.Image {
 	bounds := src.Bounds()
 	img := image.NewRGBA(bounds)
