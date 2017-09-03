@@ -49,6 +49,18 @@ func FindEdges(img image.Image) image.Image {
 	return Convolution(kernel, factor, bias, img)
 }
 
+func Sharpen(img image.Image) image.Image {
+	var factor, bias float64 = 1.0, 0.0
+
+	kernel := [][]float64{
+		{-1, -1, -1},
+		{-1, 9, -1},
+		{-1, -1, -1},
+	}
+
+	return Convolution(kernel, factor, bias, img)
+}
+
 func Convolution(kernel [][]float64, factor, bias float64, src image.Image) image.Image {
 	bounds := src.Bounds()
 	img := image.NewRGBA(bounds)
