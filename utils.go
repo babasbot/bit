@@ -23,3 +23,10 @@ func normalize(n int32) uint8 {
 
 	return uint8(n)
 }
+
+func abs(n int32) uint32 {
+	if n < 0 {
+		return uint32(-n)
+	}
+	return uint32(n)
+}
