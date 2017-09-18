@@ -20,36 +20,6 @@ func Gray(src image.Image) image.Image {
 	return dst
 }
 
-func HighContrast(src image.Image) image.Image {
-	bounds := src.Bounds()
-	dst := image.NewRGBA(bounds)
-
-	for x := bounds.Min.X; x < bounds.Max.X; x++ {
-		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-			pixel := highContrast(src, Point{x: x, y: y})
-
-			dst.Set(x, y, pixel)
-		}
-	}
-
-	return dst
-}
-
-func InverseHighContrast(src image.Image) image.Image {
-	bounds := src.Bounds()
-	dst := image.NewRGBA(bounds)
-
-	for x := bounds.Min.X; x < bounds.Max.X; x++ {
-		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
-			pixel := inverseHighContrast(src, Point{x: x, y: y})
-
-			dst.Set(x, y, pixel)
-		}
-	}
-
-	return dst
-}
-
 func gray(img image.Image, point Point) color.Gray {
 	r, g, b, _ := img.At(point.x, point.y).RGBA()
 
@@ -58,22 +28,149 @@ func gray(img image.Image, point Point) color.Gray {
 	return color.Gray{uint8(uint32(col) >> 8)}
 }
 
-func highContrast(img image.Image, point Point) color.Gray {
-	gray := gray(img, point)
+func GrayR(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
 
-	if gray.Y > 128 {
-		return color.Gray{255}
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayR(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
 	}
 
-	return color.Gray{0}
+	return dst
 }
 
-func inverseHighContrast(img image.Image, point Point) color.Gray {
-	gray := gray(img, point)
+func grayR(img image.Image, point Point) color.Gray {
+	r, _, _, _ := img.At(point.x, point.y).RGBA()
 
-	if gray.Y < 128 {
-		return color.Gray{255}
+	return color.Gray{uint8(r)}
+}
+
+func GrayG(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayG(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
 	}
 
-	return color.Gray{0}
+	return dst
+}
+
+func grayG(img image.Image, point Point) color.Gray {
+	_, g, _, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8(g >> 8)}
+}
+
+func GrayB(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayB(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
+	}
+
+	return dst
+}
+
+func grayB(img image.Image, point Point) color.Gray {
+	_, _, b, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8(b >> 8)}
+}
+
+func GrayRG(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayRG(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
+	}
+
+	return dst
+}
+
+func grayRG(img image.Image, point Point) color.Gray {
+	r, g, _, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8((r + g) / 2 >> 8)}
+}
+
+func GrayRB(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayRB(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
+	}
+
+	return dst
+}
+
+func grayRB(img image.Image, point Point) color.Gray {
+	r, _, b, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8((r + b) / 2 >> 8)}
+}
+
+func GrayGB(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayGB(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
+	}
+
+	return dst
+}
+
+func grayGB(img image.Image, point Point) color.Gray {
+	_, g, b, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8((g + b) / 2 >> 8)}
+}
+
+func GrayRGB(src image.Image) image.Image {
+	bounds := src.Bounds()
+	dst := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			pixel := grayRGB(src, Point{x: x, y: y})
+
+			dst.Set(x, y, pixel)
+		}
+	}
+
+	return dst
+}
+
+func grayRGB(img image.Image, point Point) color.Gray {
+	r, g, b, _ := img.At(point.x, point.y).RGBA()
+
+	return color.Gray{uint8((r + g + b) / 3 >> 8)}
 }
