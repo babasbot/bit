@@ -46,7 +46,7 @@ func GrayR(src image.Image) image.Image {
 func grayR(img image.Image, point Point) color.Gray {
 	r, _, _, _ := img.At(point.x, point.y).RGBA()
 
-	return color.Gray{uint8(r)}
+	return color.Gray{uint8(r >> 8)}
 }
 
 func GrayG(src image.Image) image.Image {
