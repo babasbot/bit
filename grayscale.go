@@ -1,5 +1,15 @@
 package bit
 
+import (
+	"image/color"
+)
+
+func (c *Color) Gray() color.Gray {
+	luma := uint8(c.Luma())
+
+	return color.Gray{luma}
+}
+
 func (c *Color) Luma() float32 {
 	r, g, b, _ := c.rgba.RGBA()
 
