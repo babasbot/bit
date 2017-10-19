@@ -46,3 +46,15 @@ func (i *Image) Convolve(point image.Point, kernel [][]float64, factor, bias flo
 
 	return rgba
 }
+
+func (i *Image) Blur() Image {
+	var factor, bias float64 = 1.0, 0.0
+
+	kernel := [][]float64{
+		{0.0, 0.2, 0.0},
+		{0.2, 0.2, 0.2},
+		{0.0, 0.2, 0.0},
+	}
+
+	return i.Convolution(kernel, factor, bias)
+}
