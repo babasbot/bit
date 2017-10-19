@@ -58,3 +58,21 @@ func (i *Image) Blur() Image {
 
 	return i.Convolution(kernel, factor, bias)
 }
+
+func (i *Image) MotionBlur() Image {
+	var factor, bias float64 = 1.0 / 9.0, 0.0
+
+	kernel := [][]float64{
+		{1, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 1, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 1, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 1, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 1, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 1, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 1},
+	}
+
+	return i.Convolution(kernel, factor, bias)
+}
