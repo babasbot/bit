@@ -90,3 +90,15 @@ func (i *Image) FindEdges() Image {
 
 	return i.Convolution(kernel, factor, bias)
 }
+
+func (i *Image) Sharpen() Image {
+	var factor, bias float64 = 1.0, 0.0
+
+	kernel := [][]float64{
+		{-1, -1, -1},
+		{-1, 9, -1},
+		{-1, -1, -1},
+	}
+
+	return i.Convolution(kernel, factor, bias)
+}
