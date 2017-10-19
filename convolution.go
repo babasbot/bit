@@ -76,3 +76,17 @@ func (i *Image) MotionBlur() Image {
 
 	return i.Convolution(kernel, factor, bias)
 }
+
+func (i *Image) FindEdges() Image {
+	var factor, bias float64 = 1.0, 0.0
+
+	kernel := [][]float64{
+		{0, 0, -1, 0, 0},
+		{0, 0, -1, 0, 0},
+		{0, 0, 2, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+	}
+
+	return i.Convolution(kernel, factor, bias)
+}
