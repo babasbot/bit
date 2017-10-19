@@ -5,6 +5,22 @@ import (
 	"image/color"
 )
 
+func (i *Image) Convolution(kernel [][]float64, factor, bias float64) Image {
+	bounds := i.Bounds()
+	newimg := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			point := image.Point{X: x, Y: y}
+			col := i.Convolve(point, kernel, factor, bias)
+
+			newimg.Set(x, y, col)
+		}
+	}
+
+	return Image{newimg}
+}
+
 func (i *Image) Convolve(point image.Point, kernel [][]float64, factor, bias float64) color.Color {
 	padding := len(kernel) / 2
 
