@@ -102,3 +102,15 @@ func (i *Image) Sharpen() Image {
 
 	return i.Convolution(kernel, factor, bias)
 }
+
+func (i *Image) Emboss() Image {
+	var factor, bias float64 = 1.0, 32.0
+
+	kernel := [][]float64{
+		{-1, -1, 0},
+		{-1, 0, 1},
+		{-1, 1, 1},
+	}
+
+	return i.Convolution(kernel, factor, bias)
+}
