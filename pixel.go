@@ -21,3 +21,26 @@ func (img *Image) AverageColor(point image.Point, n int) color.Color {
 
 	return img.Convolve(center, kernel, factor, bias)
 }
+
+func (img *Image) Pixel(n int) Image {
+	bounds := img.Bounds()
+	newimg := image.NewRGBA(bounds)
+
+	for y := bounds.Min.Y; y < bounds.Max.Y; y += n {
+		for x := bounds.Min.X; x < bounds.Max.X; x += n {
+			colorfill(img, newimg, image.Point{X: x, Y: y}, n)
+		}
+	}
+
+	return Image{newimg}
+}
+
+func colorfill(src *Image, dst *image.RGBA, point image.Point, n int) {
+	col := src.AverageColor(point, n)
+
+	for x := point.X; x < point.X+n; x++ {
+		for y := point.Y; y < point.Y+n; y++ {
+			dst.Set(x, y, col)
+		}
+	}
+}
