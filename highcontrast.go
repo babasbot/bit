@@ -30,6 +30,21 @@ func (col *Color) HighContrast() color.Gray {
 	return color.Gray{0}
 }
 
+func (img *Image) InverseHighContrast() Image {
+	bounds := img.Bounds()
+	newimg := image.NewRGBA(bounds)
+
+	for x := bounds.Min.X; x < bounds.Max.X; x++ {
+		for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+			col := NewRGBA(img.At(x, y))
+
+			newimg.Set(x, y, col.InverseHighContrast())
+		}
+	}
+
+	return Image{newimg}
+}
+
 func (col *Color) InverseHighContrast() color.Gray {
 	graycol := col.Gray()
 
