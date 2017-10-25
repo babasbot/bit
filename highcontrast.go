@@ -29,3 +29,13 @@ func (col *Color) HighContrast() color.Gray {
 
 	return color.Gray{0}
 }
+
+func (col *Color) InverseHighContrast() color.Gray {
+	graycol := col.Gray()
+
+	if graycol.Y > 128 {
+		return color.Gray{0}
+	}
+
+	return color.Gray{255}
+}
