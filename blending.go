@@ -1,8 +1,25 @@
 package bit
 
 import (
+	"image"
 	"image/color"
 )
+
+func (img *Image) Blending(blend Image, alpha float32) Image {
+	bounds := img.Bounds()
+	newimg := image.NewRGBA(bounds)
+
+	for y := 0; y < bounds.Max.Y; y++ {
+		for x := 0; x < bounds.Max.X; x++ {
+			col1 := img.At(x, y)
+			col2 := blend.At(x, y)
+
+			newimg.Set(x, y, Blending(col1, col2, alpha))
+		}
+	}
+
+	return Image{newimg}
+}
 
 func Blending(col1, col2 color.Color, alpha float32) color.Color {
 	r1, g1, b1, a1 := col1.RGBA()
