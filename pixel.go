@@ -22,25 +22,32 @@ func (img *Image) AverageColor(point image.Point, n int) color.Color {
 	return img.Convolve(center, kernel, factor, bias)
 }
 
-func (img *Image) Pixel(n int) Image {
+func (img *Image) Pixel(psize, margin int) Image {
 	bounds := img.Bounds()
-	newimg := image.NewRGBA(bounds)
+	newimg := Image{image.NewRGBA(bounds)}
 
-	for y := bounds.Min.Y; y < bounds.Max.Y; y += n {
-		for x := bounds.Min.X; x < bounds.Max.X; x += n {
-			colorfill(img, newimg, image.Point{X: x, Y: y}, n)
+	for y := bounds.Min.Y; y < bounds.Max.Y; y += psize {
+		for x := bounds.Min.X; x < bounds.Max.X; x += psize {
+			point := image.Point{x, y}
+			avgcol := img.AverageColor(point, psize)
+
+			newimg.fill(avgcol, point, psize, margin)
 		}
 	}
 
-	return Image{newimg}
+	return newimg
 }
 
-func colorfill(src *Image, dst *image.RGBA, point image.Point, n int) {
-	col := src.AverageColor(point, n)
+func (img *Image) fill(col color.Color, point image.Point, psize, margin int) {
+	rgba := img.image.(*image.RGBA)
 
-	for x := point.X; x < point.X+n; x++ {
-		for y := point.Y; y < point.Y+n; y++ {
-			dst.Set(x, y, col)
+	for x := point.X; x < point.X+psize; x++ {
+		for y := point.Y; y < point.Y+psize; y++ {
+			if y < point.Y+margin || x < point.X+margin {
+				rgba.Set(x, y, color.Gray{0})
+			} else {
+				rgba.Set(x, y, col)
+			}
 		}
 	}
 }
